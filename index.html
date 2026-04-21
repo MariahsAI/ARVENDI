@@ -1415,7 +1415,11 @@
     .hamburger { display: flex; }
     .logo-text { font-size: 1.1rem; letter-spacing: 0.18em; }
     .logo-tagline { font-size: 0.5rem; letter-spacing: 0.18em; }
-    .logo-tagline::after { left: calc(50% - 12px); width: 38%; }
+    .logo-tagline::before {
+      left: -20%;
+      right: 0;
+    }
+    .logo-tagline::after { left: calc(50% - 6px); width: 38%; }
     .nav-cta { display: none; }
     .theme-toggle { width: 36px; height: 36px; }
     .hero-eyebrow {
