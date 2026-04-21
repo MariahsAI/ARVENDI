@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Portal · Arvendi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500;1,8..60,600&family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000000;
+    --text: #f5ede0;
+    --text-muted: rgba(245, 237, 224, 0.75);
+    --text-soft: rgba(245, 237, 224, 0.55);
+    --accent: #b89968;
+    --accent-bright: #d4b687;
+    --rule: rgba(184, 153, 104, 0.25);
+    --rule-soft: rgba(184, 153, 104, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Atmospheric glow */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(184, 153, 104, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(184, 153, 104, 0.05) 0%, transparent 55%);
+  }
+
+  /* NAV */
+  nav {
+    position: relative;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 2;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .logo-lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    gap: 0.2rem;
+  }
+  .logo-text {
+    font-family: 'Cinzel', 'Source Serif 4', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1;
+    padding-right: 0.22em;
+  }
+  .logo-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1;
+    position: relative;
+    padding-top: 0.75rem;
+    margin-top: 0.4rem;
+  }
+  .logo-tagline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.35) 25%,
+      rgba(255, 255, 255, 0.55) 50%,
+      rgba(255, 255, 255, 0.35) 75%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+  .logo-tagline::after {
+    content: "";
+    position: absolute;
+    top: -0.5px;
+    left: calc(50% - 3px);
+    transform: translateX(-50%);
+    width: 42%;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(184, 153, 104, 0) 0%,
+      rgba(184, 153, 104, 1) 25%,
+      rgba(212, 182, 135, 1) 50%,
+      rgba(184, 153, 104, 1) 75%,
+      rgba(184, 153, 104, 0) 100%
+    );
+  }
+
+  .back-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    padding: 4rem 3rem;
+    border: 1px solid var(--rule);
+    background: rgba(184, 153, 104, 0.03);
+    position: relative;
+    animation: fadeIn 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 2rem;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.25rem;
+    color: #ffffff;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .lede {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .status-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  .status-rule::before, .status-rule::after {
+    content: "";
+    height: 1px;
+    width: 40px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .status-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  .opening-date {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .opening-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 0.95rem 1.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000000;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover {
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    color: rgba(255, 255, 255, 0.72);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  .btn-secondary:hover { border-color: #ffffff; color: #ffffff; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.25rem; }
+    .card { padding: 3rem 1.75rem; }
+    .btn-row { flex-direction: column; }
+    .btn-row a { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-lockup">
+      <div class="logo-text">Arvendi</div>
+      <div class="logo-tagline">Systematic Capital</div>
+    </div>
+  </a>
+  <a href="index.html" class="back-link">← Back to site</a>
+</nav>
+
+<main>
+  <div class="card">
+    <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="10" y="21" width="28" height="18" rx="1"/>
+      <path d="M16 21v-5a8 8 0 0 1 16 0v5"/>
+      <circle cx="24" cy="30" r="1.5" fill="currentColor"/>
+      <line x1="24" y1="31.5" x2="24" y2="34"/>
+    </svg>
+
+    <div class="eyebrow">Client Portal</div>
+
+    <h1>The portal is <em>not yet</em> open.</h1>
+
+    <p class="lede">
+      Arvendi is currently in formation. The limited partner portal — where executed subscribers will access statements, performance reports, and tax documentation — is being built alongside the fund's operational infrastructure.
+    </p>
+
+    <div class="status-rule">
+      <span class="status-label">Expected Availability</span>
+    </div>
+
+    <div class="opening-date">Q3 2026</div>
+    <div class="opening-note">Subject to Fund Launch</div>
+
+    <div class="btn-row">
+      <a href="index.html#signup" class="btn-primary">Founding Partner Inquiry</a>
+      <a href="mailto:inquiries@arvendi.com" class="btn-secondary">Contact</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © MMXXVI · ARVENDI · ALL RIGHTS RESERVED
+</footer>
+
+</body>
+</html>
