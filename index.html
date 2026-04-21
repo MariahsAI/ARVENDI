@@ -1415,9 +1415,21 @@
     .hamburger { display: flex; }
     .logo-text { font-size: 1.1rem; letter-spacing: 0.18em; }
     .logo-tagline { font-size: 0.5rem; letter-spacing: 0.18em; }
-    .logo-tagline::after { left: 50%; width: 38%; }
+    .logo-tagline::after { left: calc(50% - 12px); width: 38%; }
     .nav-cta { display: none; }
     .theme-toggle { width: 36px; height: 36px; }
+    .hero-eyebrow {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      line-height: 1.4;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after { display: none; }
+    .hero {
+      min-height: auto;
+      padding: 7rem 0 4rem;
+      align-items: flex-start;
+    }
     .container { padding: 0 1.25rem; }
     section { padding: 4.5rem 0; }
     .hero { padding: 8rem 0 4rem; min-height: auto; }
