@@ -4,6 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arvendi · Systematic Capital</title>
+
+<!-- SEO -->
+<meta name="description" content="Arvendi is a systematic hedge fund in formation applying rules-based strategies across liquid markets. Accepting inquiries from qualified investors.">
+<meta name="author" content="Arvendi">
+
+<!-- Open Graph (Facebook, iMessage, WhatsApp, Slack, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://arvendi.com/">
+<meta property="og:title" content="Arvendi · Systematic Capital">
+<meta property="og:description" content="A disciplined approach to systematic capital. Private investment fund in formation.">
+<meta property="og:image" content="https://arvendi.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Arvendi — Systematic Capital">
+<meta property="og:site_name" content="Arvendi">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Arvendi · Systematic Capital">
+<meta name="twitter:description" content="A disciplined approach to systematic capital. Private investment fund in formation.">
+<meta name="twitter:image" content="https://arvendi.com/og-image.png">
+
+<!-- Theme color for mobile browsers -->
+<meta name="theme-color" content="#000000">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500;1,8..60,600&family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1222,6 +1247,138 @@
   .footer-inner a:hover { color: var(--accent-on-dark-bright); }
 
   /* ============================================
+     HAMBURGER + MOBILE MENU
+  ============================================ */
+  .hamburger {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: border-color 0.3s;
+  }
+  .hamburger:hover { border-color: var(--accent-on-dark); }
+  .hamburger span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: #ffffff;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+  .hamburger.active { border-color: var(--accent-on-dark); }
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(3.5px) rotate(45deg);
+    background: var(--accent-on-dark);
+  }
+  .hamburger.active span:nth-child(2) {
+    transform: translateY(-3px) rotate(-45deg);
+    background: var(--accent-on-dark);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .mobile-menu.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(184, 153, 104, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 80%, rgba(184, 153, 104, 0.06) 0%, transparent 55%);
+  }
+  .mobile-menu-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+  }
+  .mobile-menu.active .mobile-menu-inner {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .mobile-menu-links a {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.65rem 0;
+    transition: color 0.3s;
+    letter-spacing: -0.01em;
+  }
+  .mobile-menu-links a:hover { color: var(--accent-on-dark); }
+  .mobile-menu-rule {
+    width: 60px;
+    height: 1px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(90deg, transparent, var(--accent-on-dark), transparent);
+  }
+  .mobile-menu-cta {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-on-dark);
+    border: 1px solid var(--accent-on-dark);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-bottom: 2.5rem;
+  }
+  .mobile-menu-cta:hover {
+    background: var(--accent-on-dark);
+    color: #000000;
+  }
+  .mobile-menu-footer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .mobile-menu-footer a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-menu-footer a:hover { color: var(--accent-on-dark); }
+
+  body.menu-open { overflow: hidden; }
+
+  /* ============================================
      REVEAL
   ============================================ */
   @keyframes fadeUp {
@@ -1255,9 +1412,10 @@
   @media (max-width: 680px) {
     nav { padding: 1rem 1.25rem; }
     .nav-links { display: none; }
+    .hamburger { display: flex; }
     .logo-text { font-size: 1.1rem; letter-spacing: 0.18em; }
     .logo-tagline { font-size: 0.5rem; letter-spacing: 0.28em; }
-    .nav-cta { padding: 0.55rem 1rem; font-size: 0.62rem; letter-spacing: 0.12em; }
+    .nav-cta { display: none; }
     .theme-toggle { width: 36px; height: 36px; }
     .container { padding: 0 1.25rem; }
     section { padding: 4.5rem 0; }
@@ -1295,11 +1453,11 @@
     .risk-inner p { font-size: 0.85rem; }
   }
   @media (max-width: 420px) {
-    .logo-tagline { display: none; }
     .logo-text { font-size: 1rem; letter-spacing: 0.15em; }
-    .nav-cta { padding: 0.5rem 0.85rem; }
+    .logo-tagline { font-size: 0.46rem; letter-spacing: 0.25em; }
     h1.hero-title { font-size: 2rem; }
     .hero-stats { grid-template-columns: 1fr; gap: 1.5rem; }
+    .mobile-menu-links a { font-size: 1.75rem; }
   }
 </style>
 </head>
@@ -1365,8 +1523,30 @@
       </svg>
     </button>
     <a href="login.html" class="nav-cta">Client Login</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-links">
+      <a href="#strategy" onclick="closeMenu()">Strategy</a>
+      <a href="#principles" onclick="closeMenu()">Principles</a>
+      <a href="#terms" onclick="closeMenu()">Terms</a>
+      <a href="#founder" onclick="closeMenu()">Founder</a>
+      <a href="#signup" onclick="closeMenu()">Inquire</a>
+    </nav>
+    <div class="mobile-menu-rule"></div>
+    <a href="login.html" class="mobile-menu-cta">Client Login</a>
+    <div class="mobile-menu-footer">
+      <a href="mailto:inquiries@arvendi.com">inquiries@arvendi.com</a>
+    </div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1755,6 +1935,39 @@
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('arvendi_theme', next);
   }
+
+  // ==================== MOBILE MENU ====================
+  const mobileMenu = document.getElementById('mobileMenu');
+  const hamburger = document.querySelector('.hamburger');
+
+  function toggleMenu() {
+    const isOpen = mobileMenu.classList.contains('active');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    hamburger.classList.add('active');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+  }
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
 
   // ==================== GATE ====================
   function passGate() {
