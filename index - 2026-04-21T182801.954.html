@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arvendi · Systematic Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500;1,8..60,600&family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     THEME TOKENS — light (default) & dark
+  ============================================ */
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --bg-deep: #f7f7f5;
+    --bg-contrast: #000000;
+    --bg-contrast-deep: #000000;
+    --surface: rgba(13, 27, 51, 0.03);
+    --surface-alt: rgba(13, 27, 51, 0.05);
+    --text: #0d1b33;
+    --text-muted: rgba(13, 27, 51, 0.78);
+    --text-soft: rgba(13, 27, 51, 0.65);
+    --text-contrast: #ffffff;
+    --text-contrast-muted: rgba(255, 255, 255, 0.82);
+    --text-contrast-soft: rgba(255, 255, 255, 0.68);
+    --accent: #9a7d45;
+    --accent-bright: #b89968;
+    --accent-on-dark: #b89968;
+    --accent-on-dark-bright: #d4b687;
+    --rule: rgba(13, 27, 51, 0.14);
+    --rule-soft: rgba(13, 27, 51, 0.07);
+    --rule-on-dark: rgba(255, 255, 255, 0.18);
+    --rule-on-dark-soft: rgba(255, 255, 255, 0.1);
+    --nav-bg: rgba(255, 255, 255, 0.85);
+    --nav-bg-scrolled: rgba(255, 255, 255, 0.97);
+    --input-border: rgba(13, 27, 51, 0.22);
+    --grain-blend: multiply;
+    --grain-opacity: 0;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --bg-deep: #000000;
+    --bg-contrast: #ffffff;
+    --bg-contrast-deep: #f7f7f5;
+    --surface: rgba(184, 153, 104, 0.05);
+    --surface-alt: rgba(184, 153, 104, 0.09);
+    --text: #f5ede0;
+    --text-muted: rgba(245, 237, 224, 0.82);
+    --text-soft: rgba(245, 237, 224, 0.65);
+    --text-contrast: #0d1b33;
+    --text-contrast-muted: rgba(13, 27, 51, 0.78);
+    --text-contrast-soft: rgba(13, 27, 51, 0.65);
+    --accent: #b89968;
+    --accent-bright: #d4b687;
+    --accent-on-dark: #b89968;
+    --accent-on-dark-bright: #d4b687;
+    --rule: rgba(184, 153, 104, 0.28);
+    --rule-soft: rgba(184, 153, 104, 0.14);
+    --rule-on-dark: rgba(184, 153, 104, 0.28);
+    --rule-on-dark-soft: rgba(184, 153, 104, 0.14);
+    --nav-bg: rgba(0, 0, 0, 0.7);
+    --nav-bg-scrolled: rgba(0, 0, 0, 0.92);
+    --input-border: rgba(245, 237, 224, 0.22);
+    --grain-blend: overlay;
+    --grain-opacity: 0.05;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: var(--grain-blend);
+    transition: opacity 0.5s ease;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: transparent;
+    transition: opacity 0.5s ease;
+  }
+  :root[data-theme="dark"] body::after {
+    background:
+      radial-gradient(ellipse at 12% 0%, rgba(184, 153, 104, 0.08) 0%, transparent 45%),
+      radial-gradient(ellipse at 88% 95%, rgba(184, 153, 104, 0.06) 0%, transparent 45%);
+  }
+  :root[data-theme="dark"] body::after {
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(201, 169, 97, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 100%, rgba(201, 169, 97, 0.06) 0%, transparent 50%);
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 2; }
+
+  /* ============================================
+     ACCREDITATION GATE
+  ============================================ */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    color: #f5ede0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+  #gate .gate-inner h1 { color: #ffffff; }
+  #gate .gate-inner h1 em { color: var(--accent-on-dark); }
+  #gate .gate-inner p { color: rgba(245, 237, 224, 0.72); }
+  #gate .gate-eyebrow { color: rgba(245, 237, 224, 0.72); }
+  #gate .gate-criteria { background: rgba(184, 153, 104, 0.06); border-color: rgba(184, 153, 104, 0.25); }
+  #gate .gate-criteria-label { color: #ffffff; }
+  #gate .gate-criteria li { color: rgba(245, 237, 224, 0.75); }
+  #gate .gate-criteria li::before { color: rgba(245, 237, 224, 0.6); }
+  #gate .btn-primary { background: var(--accent-on-dark); color: #000000; border-color: var(--accent-on-dark); }
+  #gate .btn-primary:hover { background: var(--accent-on-dark-bright); border-color: var(--accent-on-dark-bright); }
+  #gate .btn-secondary { color: rgba(245, 237, 224, 0.7); border-color: rgba(245, 237, 224, 0.28); }
+  #gate .btn-secondary:hover { border-color: #ffffff; color: #ffffff; }
+  #gate .gate-fineprint { color: rgba(245, 237, 224, 0.5); }
+  #gate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(184, 153, 104, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(184, 153, 104, 0.08) 0%, transparent 50%);
+  }
+  :root[data-theme="dark"] #gate::before {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(184, 153, 104, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(184, 153, 104, 0.1) 0%, transparent 50%);
+  }
+  .gate-inner {
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: gateFade 0.8s ease-out;
+  }
+  @keyframes gateFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .gate-mark { margin-bottom: 2rem; display: flex; justify-content: center; }
+  .gate-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .gate-inner h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  .gate-inner h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .gate-inner p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    max-width: 52ch;
+    margin: 0 auto 2rem;
+  }
+  .gate-criteria {
+    text-align: left;
+    background: var(--surface-alt);
+    border: 1px solid var(--rule);
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .gate-criteria-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .gate-criteria ul { list-style: none; }
+  .gate-criteria li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    position: relative;
+    line-height: 1.55;
+  }
+  .gate-criteria li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    color: var(--text-soft);
+    font-size: 0.6rem;
+    top: 0.75rem;
+  }
+  .gate-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary {
+    padding: 1rem 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-deep);
+    border-color: var(--accent);
+  }
+  :root[data-theme="dark"] .btn-primary { color: #111e38; }
+  .btn-primary:hover {
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    color: var(--text-muted);
+    border-color: var(--input-border);
+  }
+  .btn-secondary:hover { border-color: var(--text); color: var(--text); }
+  .gate-fineprint {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    margin-top: 2rem;
+    font-style: italic;
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+  .gate-declined {
+    display: none;
+    background: rgba(139, 42, 31, 0.1);
+    border: 1px solid rgba(139, 42, 31, 0.4);
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  /* ============================================
+     NAV
+  ============================================ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: #000000;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 1rem 2.5rem; background: #000000; }
+  .logo-wrap { display: flex; align-items: center; gap: 0.85rem; }
+  .logo-mark { width: 48px; height: auto; flex-shrink: 0; }
+  .logo-lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    gap: 0.2rem;
+  }
+  .logo-text {
+    font-family: 'Cinzel', 'Source Serif 4', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1;
+    padding-right: 0.22em;
+  }
+  .logo-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1;
+    position: relative;
+    padding-top: 0.75rem;
+    margin-top: 0.4rem;
+  }
+  /* Long silver hairline — fades at both ends, subtle shimmer in middle */
+  .logo-tagline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.35) 25%,
+      rgba(255, 255, 255, 0.55) 50%,
+      rgba(255, 255, 255, 0.35) 75%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+  /* Gold accent segment — crisp, centered, minimal glow */
+  .logo-tagline::after {
+    content: "";
+    position: absolute;
+    top: -0.5px;
+    left: calc(50% - 3px);
+    transform: translateX(-50%);
+    width: 42%;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(184, 153, 104, 0) 0%,
+      rgba(184, 153, 104, 1) 25%,
+      rgba(212, 182, 135, 1) 50%,
+      rgba(184, 153, 104, 1) 75%,
+      rgba(184, 153, 104, 0) 100%
+    );
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent-on-dark); }
+  .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--accent-on-dark);
+    padding: 0;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent-on-dark);
+    background: rgba(184, 153, 104, 0.08);
+  }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  .nav-cta {
+    background: transparent;
+    color: var(--accent-on-dark);
+    padding: 0.65rem 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--accent-on-dark);
+    transition: all 0.3s;
+  }
+  .nav-cta:hover {
+    background: var(--accent-on-dark);
+    color: #000000;
+  }
+
+  /* ============================================
+     HERO
+  ============================================ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 10rem 0 6rem;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: "";
+    height: 1px;
+    flex: 0 0 40px;
+    background: var(--rule);
+  }
+  .hero-eyebrow::after { flex: 1; opacity: 0.6; }
+
+  h1.hero-title {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    max-width: 12ch;
+  }
+  h1.hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 48ch;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+    font-weight: 400;
+  }
+  .hero-cta-row { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 540px;
+    justify-self: end;
+  }
+  .hero-visual svg { width: 100%; height: 100%; }
+  .ornament-ring { animation: slowSpin 120s linear infinite; transform-origin: 230px 230px; }
+  .ornament-ring-rev { animation: slowSpin 90s linear infinite reverse; transform-origin: 230px 230px; }
+  @keyframes slowSpin { to { transform: rotate(360deg); } }
+
+  .hero-visual-sidebar {
+    position: absolute;
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    opacity: 1;
+    white-space: nowrap;
+  }
+  .hero-visual-sidebar::before {
+    content: "";
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--text-soft);
+    vertical-align: middle;
+    margin-right: 0.75rem;
+    opacity: 0.6;
+  }
+
+  .hero-stats {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .hero-stat { position: relative; padding-right: 1rem; }
+  .hero-stat:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0; top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--rule);
+  }
+  .stat-num {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .stat-num em { font-style: italic; color: var(--text); font-weight: 600; }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ============================================
+     SECTION CHROME
+  ============================================ */
+  section { padding: 7rem 0; position: relative; }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    margin-bottom: 5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-marker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .section-marker span { color: var(--text-soft); }
+  .section-lede {
+    margin-top: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 58ch;
+    line-height: 1.75;
+  }
+  h2 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 4.5vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  h2 em { font-style: italic; color: var(--text); font-weight: 500; }
+
+  .section-head > div {
+    text-align: center;
+  }
+  .section-head .section-lede {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ============================================
+     TERMS GRID
+  ============================================ */
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+  .term-row {
+    padding: 1.6rem 2rem;
+    border-bottom: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    align-items: baseline;
+    gap: 1.5rem;
+    transition: background 0.3s;
+  }
+  .term-row:hover { background: var(--surface-alt); }
+  .term-row:nth-child(odd) { border-right: 1px solid var(--rule-soft); }
+  .term-row:nth-last-child(-n+2) { border-bottom: none; }
+  .term-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .term-value {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .term-value.highlight {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ============================================
+     TIERS — inverted section (always dark)
+  ============================================ */
+  #tiers {
+    background: var(--bg-contrast);
+    color: var(--text-contrast);
+    position: relative;
+  }
+  #tiers::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(184, 153, 104, 0.1) 0%, transparent 45%),
+      radial-gradient(ellipse at 100% 100%, rgba(184, 153, 104, 0.06) 0%, transparent 45%);
+  }
+  #tiers .section-head { border-bottom-color: var(--rule-on-dark); }
+  #tiers h2 { color: var(--text-contrast); }
+  #tiers h2 em { color: var(--accent-on-dark); }
+  #tiers .section-marker { color: var(--accent-on-dark); }
+  #tiers .section-marker span { color: var(--text-contrast-soft); }
+  #tiers .section-lede { color: var(--text-contrast-muted); }
+
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    background: rgba(184, 153, 104, 0.12);
+    border: 1px solid rgba(184, 153, 104, 0.12);
+    gap: 1px;
+  }
+  .tier-card {
+    background: var(--bg-contrast);
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    min-height: 360px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+  }
+  .tier-card:hover {
+    background: #243a5e;
+    transform: translateY(-2px);
+  }
+  :root[data-theme="dark"] .tier-card:hover { background: #243a5e; }
+  .tier-card.featured {
+    background: linear-gradient(155deg, #243a5e 0%, #111e38 100%);
+    position: relative;
+  }
+  .tier-card.featured::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 0% 0%, rgba(184, 153, 104, 0.22) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .tier-card.featured::after {
+    content: "◆ PREFERRED";
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-on-dark);
+  }
+
+  .tier-principal {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-contrast);
+  }
+  .tier-principal em { font-style: italic; color: var(--accent-on-dark); }
+
+  .tier-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-on-dark) 0%, transparent 70%);
+    margin: 0.3rem 0;
+  }
+
+  .tier-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .tier-row .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .tier-row .val {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text-contrast);
+  }
+  .tier-row.total .val {
+    color: var(--accent-on-dark);
+    font-style: italic;
+    font-size: 1.25rem;
+  }
+
+  .tier-select {
+    margin-top: auto;
+    padding: 0.9rem;
+    background: transparent;
+    border: 1px solid var(--rule-on-dark);
+    color: var(--text-contrast);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .tier-select:hover {
+    background: var(--accent-on-dark);
+    color: #111e38;
+    border-color: var(--accent-on-dark);
+  }
+  .tier-card.featured .tier-select {
+    background: var(--accent-on-dark);
+    color: #111e38;
+    border-color: var(--accent-on-dark);
+  }
+  .tier-card.featured .tier-select:hover {
+    background: var(--accent-on-dark-bright);
+    border-color: var(--accent-on-dark-bright);
+  }
+
+  /* ============================================
+     TIMELINE
+  ============================================ */
+  .timeline { position: relative; padding: 2rem 0; }
+  .timeline-line {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--rule) 10%,
+      var(--rule) 90%,
+      transparent 100%);
+  }
+  .timeline-nodes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    position: relative;
+  }
+  .timeline-node {
+    text-align: center;
+    position: relative;
+    padding: 2rem 0;
+  }
+  .timeline-node::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--text);
+    border: 2px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(13, 27, 51, 0.08);
+    transition: all 0.4s;
+  }
+  :root[data-theme="dark"] .timeline-node::before { background: var(--text); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12); }
+  .timeline-node:hover::before {
+    transform: translate(-50%, -50%) scale(1.4);
+    box-shadow: 0 0 0 8px rgba(13, 27, 51, 0.12);
+  }
+  .timeline-node.final::before { background: var(--accent); box-shadow: 0 0 0 4px rgba(184, 153, 104, 0.2); }
+  :root[data-theme="dark"] .timeline-node.final::before { background: var(--accent-on-dark); box-shadow: 0 0 0 4px rgba(184, 153, 104, 0.25); }
+
+  .node-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .node-top { margin-bottom: 2.5rem; }
+  .node-bottom { margin-top: 2.5rem; }
+  .node-amount {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--text);
+    margin-top: 0.3rem;
+  }
+  .node-num {
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+
+  .schedule-summary {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+  .schedule-summary > div {
+    border-right: 1px solid var(--rule-soft);
+    padding: 0 1rem;
+  }
+  .schedule-summary > div:last-child { border-right: none; }
+
+  /* ============================================
+     CLAUSES
+  ============================================ */
+  .clauses {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 4rem;
+  }
+  .clause {
+    padding: 2rem 0 2rem 3rem;
+    border-left: 1px solid var(--rule);
+    position: relative;
+  }
+  .clause::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 2rem;
+    width: 3px;
+    height: 40px;
+    background: var(--text);
+  }
+  .clause h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .clause h3 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    letter-spacing: 0.1em;
+  }
+  .clause p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  /* ============================================
+     PRINCIPLES
+  ============================================ */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 4rem;
+    margin-bottom: 6rem;
+  }
+  .principle {
+    position: relative;
+    padding-left: 0;
+  }
+  .principle-num {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    display: inline-block;
+    min-width: 2.5rem;
+  }
+  .principle h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.9rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .principle p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  /* Chart block */
+  .chart-block {
+    padding-top: 3rem;
+    border-top: 1px solid var(--rule);
+  }
+  .chart-head { margin-bottom: 2.5rem; max-width: 62ch; }
+  .chart-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .chart-head h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.9rem;
+    letter-spacing: -0.01em;
+  }
+  .chart-sub {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+  .chart-container {
+    padding: 2rem 1.5rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+  .chart-svg {
+    width: 100%;
+    height: 320px;
+    display: block;
+    color: var(--text);
+  }
+  .chart-caption {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--rule-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 780px) {
+    .principles-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .chart-svg { height: 240px; }
+  }
+
+  /* ============================================
+     SIGNUP — always dark
+  ============================================ */
+  #signup {
+    background: var(--bg-contrast-deep);
+    padding: 8rem 0;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-contrast);
+  }
+  #signup::before {
+    content: "";
+    position: absolute;
+    top: -300px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(184, 153, 104, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  #signup::after {
+    content: "";
+    position: absolute;
+    bottom: -300px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(184, 153, 104, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  #signup h2 { color: var(--text-contrast); }
+  #signup h2 em { color: var(--accent-on-dark); }
+  #signup .section-marker { color: var(--accent-on-dark); }
+  #signup .section-marker span { color: var(--text-contrast-soft); }
+  #signup .section-lede { color: var(--text-contrast-muted); }
+  #signup .section-head { border-bottom-color: var(--rule-on-dark); }
+
+  .form-wrap { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
+
+  .selected-display {
+    margin-bottom: 3rem;
+    padding: 2rem 2.25rem;
+    background: rgba(184, 153, 104, 0.08);
+    border: 1px solid var(--accent-on-dark);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+  .selected-display .sd-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-on-dark);
+    margin-bottom: 0.5rem;
+  }
+  .selected-display .sd-amt {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--text-contrast);
+    font-weight: 400;
+  }
+  .selected-display .sd-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-contrast-muted);
+    line-height: 1.8;
+    text-align: right;
+  }
+  .selected-display .sd-meta b { color: var(--accent-on-dark); font-weight: 500; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.75rem;
+  }
+  .form-field { display: flex; flex-direction: column; position: relative; }
+  .form-field.full { grid-column: 1 / -1; }
+  .form-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 0.7rem;
+  }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(245, 237, 224, 0.2);
+    color: var(--text-contrast);
+    padding: 0.6rem 0 0.85rem;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent-on-dark);
+  }
+  .form-field select option { background: #111e38; color: var(--text-contrast); font-size: 1rem; }
+  .form-field textarea { resize: vertical; min-height: 70px; }
+
+  .checkbox-row {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--text-contrast-muted);
+    padding: 1.25rem 0;
+  }
+  .checkbox-row input { margin-top: 0.3rem; accent-color: var(--accent-on-dark); flex-shrink: 0; }
+  .checkbox-row label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-contrast-muted);
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    margin-top: 1rem;
+    padding: 1.2rem 3rem;
+    background: var(--accent-on-dark);
+    color: #111e38;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    justify-self: start;
+  }
+  .submit-btn:hover {
+    background: var(--accent-on-dark-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(184, 153, 104, 0.25);
+  }
+
+  .success-msg {
+    display: none;
+    padding: 3rem 2.5rem;
+    border: 1px solid var(--accent-on-dark);
+    background: rgba(184, 153, 104, 0.08);
+    text-align: center;
+  }
+  .success-msg.show { display: block; animation: gateFade 0.6s ease-out; }
+  .success-msg h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--text-contrast);
+    margin-bottom: 1rem;
+  }
+  .success-msg h3 em { color: var(--accent-on-dark); font-style: italic; }
+  .success-msg p { color: var(--text-contrast-muted); font-size: 0.95rem; max-width: 50ch; margin: 0 auto; }
+
+  /* ============================================
+     RISK + FOOTER
+  ============================================ */
+  .risk-section {
+    background: var(--bg);
+    padding: 5rem 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .risk-inner { max-width: 880px; margin: 0 auto; padding: 0 2.5rem; }
+  .risk-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  .risk-inner h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .risk-inner p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .risk-inner p strong { color: var(--text); font-weight: 500; }
+
+  footer {
+    background: var(--bg-contrast-deep);
+    padding: 3rem 2.5rem 2.5rem;
+    border-top: 1px solid var(--rule-on-dark-soft);
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--text-contrast-soft);
+  }
+  .footer-inner a { color: var(--accent-on-dark); text-decoration: none; }
+  .footer-inner a:hover { color: var(--accent-on-dark-bright); }
+
+  /* ============================================
+     REVEAL
+  ============================================ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+  .reveal.d1 { animation-delay: 0.1s; }
+  .reveal.d2 { animation-delay: 0.25s; }
+  .reveal.d3 { animation-delay: 0.4s; }
+  .reveal.d4 { animation-delay: 0.55s; }
+  .reveal.d5 { animation-delay: 0.7s; }
+
+  .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.9s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ============================================
+     RESPONSIVE
+  ============================================ */
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-visual { justify-self: center; max-width: 360px; }
+    h1.hero-title { max-width: 15ch; }
+    .hero-visual-sidebar { display: none; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem; }
+    .hero-stat:nth-child(2)::after { display: none; }
+    .clauses { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .container { padding: 0 1.25rem; }
+    section { padding: 4.5rem 0; }
+    .hero { padding: 8rem 0 4rem; min-height: auto; }
+    .terms-grid { grid-template-columns: 1fr; }
+    .term-row:nth-child(odd) { border-right: none; }
+    .term-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .selected-display { grid-template-columns: 1fr; }
+    .selected-display .sd-meta { text-align: left; }
+    #signup { padding: 5rem 0; }
+    .clause { padding-left: 2rem; }
+    h1.hero-title { font-size: 2.75rem; max-width: 100%; }
+    .gate-inner h1 { font-size: 2rem; }
+    .gate-criteria { padding: 1.25rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ACCREDITATION GATE -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-mark">
+      <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="36" cy="36" r="34" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.22" style="color: var(--text);"/>
+        <circle cx="36" cy="36" r="28" fill="none" stroke="currentColor" stroke-width="1" opacity="0.42" style="color: var(--text);"/>
+        <text x="36" y="47" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="34" font-style="italic" font-weight="500" fill="currentColor" style="color: var(--accent);">A</text>
+        <line x1="18" y1="56" x2="54" y2="56" stroke="currentColor" stroke-width="0.5" opacity="0.3" style="color: var(--text);"/>
+      </svg>
+    </div>
+    <div class="gate-eyebrow">Private Placement · Restricted Access</div>
+    <h1>For <em>accredited</em> investors only.</h1>
+    <p>Arvendi is a private investment fund in formation, offered under Rule 506(c) of Regulation D. To proceed beyond this page, you must self-certify that you meet SEC accreditation standards. Third-party verification of accredited status will be required prior to any subscription being accepted.</p>
+    <div class="gate-criteria">
+      <div class="gate-criteria-label">You qualify as an accredited investor if you meet any of the following:</div>
+      <ul>
+        <li>Individual income exceeding $200,000 in each of the last two years (or $300,000 jointly with spouse), with reasonable expectation of the same this year</li>
+        <li>Net worth exceeding $1,000,000 individually or jointly, excluding primary residence</li>
+        <li>Hold a Series 7, 65, or 82 securities license in good standing</li>
+        <li>Qualifying entity: trust with $5M+ assets, or entity with $5M+ assets not formed for this investment</li>
+      </ul>
+    </div>
+    <div class="gate-buttons">
+      <button class="btn-primary" onclick="passGate()">I am an Accredited Investor</button>
+      <button class="btn-secondary" onclick="declineGate()">I am Not Accredited</button>
+    </div>
+    <div class="gate-declined" id="gateDeclined">
+      Thank you for your honesty. This program is restricted to accredited investors under federal securities law. If you believe you may qualify but are unsure, we recommend consulting a financial advisor. You are welcome to return once your status changes.
+    </div>
+    <div class="gate-fineprint">By proceeding, you acknowledge you have read the above criteria truthfully.</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo-wrap">
+    <div class="logo-lockup">
+      <div class="logo-text">Arvendi</div>
+      <div class="logo-tagline">Systematic Capital</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#strategy">Strategy</a>
+    <a href="#principles">Principles</a>
+    <a href="#terms">Terms</a>
+    <a href="#founder">Founder</a>
+    <a href="#signup">Inquire</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+    </button>
+    <a href="#signup" class="nav-cta">Begin Inquiry</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow reveal d1">Systematic Hedge Fund · In Formation</div>
+        <h1 class="hero-title reveal d2">We trade <em>rules,</em> not stories.</h1>
+        <p class="hero-sub reveal d3">
+          Arvendi is a systematic hedge fund in formation, applying rules-based strategies across liquid markets for a limited group of founding partners. We are accepting expressions of interest from qualified investors while fund infrastructure and regulatory workstreams are completed.
+        </p>
+        <div class="hero-cta-row reveal d4">
+          <a href="#signup" class="btn-primary" style="text-decoration: none; display: inline-block;">Founding Partner Inquiry</a>
+          <a href="#strategy" style="color: var(--text-muted); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;">Read the strategy →</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal d3">
+        <div class="hero-visual-sidebar">Private · Placement · MMXXIV</div>
+        <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g style="color: var(--text);">
+            <circle cx="230" cy="230" r="220" fill="url(#glow)" opacity="0.4"/>
+            <g class="ornament-ring">
+              <circle cx="230" cy="230" r="210" fill="none" stroke="currentColor" stroke-width="0.3" opacity="0.18"/>
+              <circle cx="230" cy="230" r="210" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 14" opacity="0.32"/>
+            </g>
+            <circle cx="230" cy="230" r="180" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.14"/>
+            <g class="ornament-ring-rev">
+              <circle cx="230" cy="230" r="155" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1 8" opacity="0.22"/>
+            </g>
+            <circle cx="230" cy="230" r="130" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+            <circle cx="230" cy="230" r="120" fill="none" stroke="currentColor" stroke-width="0.3" opacity="0.18"/>
+            <line x1="230" y1="100" x2="230" y2="110" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <line x1="230" y1="350" x2="230" y2="360" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <line x1="100" y1="230" x2="110" y2="230" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <line x1="350" y1="230" x2="360" y2="230" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <text x="230" y="405" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="4" fill="currentColor" opacity="0.4">ARVENDI · MMXXVI</text>
+          </g>
+          <text x="230" y="260" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="128" font-style="italic" font-weight="400" fill="currentColor" style="color: var(--accent);" opacity="0.95">A</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-stats reveal d5">
+      <div class="hero-stat">
+        <div class="stat-num">$100<em>K</em></div>
+        <div class="stat-label">Minimum Commitment</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">2<em>/</em>20</div>
+        <div class="stat-label">Fee Structure</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">Q<em>ly</em></div>
+        <div class="stat-label">Subscriptions · Redemptions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">506<em>c</em></div>
+        <div class="stat-label">Reg D · Accredited Only</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRATEGY -->
+<section id="strategy">
+  <div class="container">
+    <div class="section-head scroll-reveal">
+      <div class="section-marker">§ 01 <span>/ Strategy</span></div>
+      <div>
+        <h2>A <em>systematic</em> approach to public markets.</h2>
+        <p class="section-lede">Arvendi applies rules-based strategies across liquid equity and futures markets. Every decision is driven by a predefined framework — entries, sizing, risk limits, and exits — not by discretion or narrative. The strategy is built to be repeatable, testable, and accountable.</p>
+      </div>
+    </div>
+
+    <div class="clauses scroll-reveal">
+      <div class="clause">
+        <h3><span class="num">01</span>Rules-Based Execution</h3>
+        <p>Positions are opened and closed according to a documented framework rather than discretionary judgment. Every trade can be explained, reviewed, and reproduced against the model that generated it.</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">02</span>Liquid Markets Only</h3>
+        <p>Arvendi trades exclusively in deeply liquid public markets. No private credit, no illiquid structures, no positions that cannot be exited within a single trading session under normal conditions.</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">03</span>Defined Risk Framework</h3>
+        <p>Position-level and portfolio-level risk limits are set in advance and monitored continuously. Drawdown thresholds trigger automatic review. Capital preservation is the first objective; return is the second.</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">04</span>Transparent Reporting</h3>
+        <p>Limited partners receive monthly performance reports and quarterly statements prepared by an independent fund administrator. Annual audited financials conducted by a qualified auditor upon fund launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="container">
+    <div class="section-head scroll-reveal">
+      <div class="section-marker">§ 02 <span>/ Principles</span></div>
+      <div>
+        <h2>How the <em>firm</em> behaves.</h2>
+        <p class="section-lede">Strategy is what we do. Principles are how we do it. Below is how Arvendi approaches the work, the clients, and the capital — before, during, and after any trade is placed.</p>
+      </div>
+    </div>
+
+    <div class="principles-grid scroll-reveal">
+      <div class="principle">
+        <div class="principle-num">I</div>
+        <h3>Process over prediction</h3>
+        <p>We do not forecast. We identify repeatable conditions the model has seen before and act on them within predefined bounds. The edge, if there is one, lives in the discipline of the process — not in any individual call.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">II</div>
+        <h3>Loss is the first variable</h3>
+        <p>Every position is sized to a maximum loss before it is entered. Risk limits are non-negotiable. A strategy that cannot lose well cannot win consistently.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">III</div>
+        <h3>Costs are the enemy</h3>
+        <p>Gross returns do not compound — net returns do. We minimize frictional drag at every layer: execution quality, financing costs, operational overhead, and our own fees where possible.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">IV</div>
+        <h3>Transparency is the default</h3>
+        <p>Limited partners receive the same information we do, at the same cadence. No selective disclosure, no performance marketing ahead of audited numbers, no surprises at quarter end.</p>
+      </div>
+    </div>
+
+    <!-- Illustrative chart -->
+    <div class="chart-block scroll-reveal">
+      <div class="chart-head">
+        <div class="chart-label">◆ Illustrative · Not Live Performance</div>
+        <h3>What disciplined compounding looks like.</h3>
+        <p class="chart-sub">The curve below is a generic illustration of smooth compound growth at a hypothetical rate. It is not a representation of Arvendi's actual or expected performance. A live, audited track record will be made available to prospective limited partners under NDA once established.</p>
+      </div>
+
+      <div class="chart-container">
+        <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="chart-svg">
+          <defs>
+            <linearGradient id="chartFill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Grid lines -->
+          <g stroke="currentColor" stroke-width="0.5" opacity="0.1">
+            <line x1="60" y1="60" x2="870" y2="60"/>
+            <line x1="60" y1="130" x2="870" y2="130"/>
+            <line x1="60" y1="200" x2="870" y2="200"/>
+            <line x1="60" y1="270" x2="870" y2="270"/>
+          </g>
+
+          <!-- Y-axis labels -->
+          <g font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" opacity="0.5" text-anchor="end">
+            <text x="52" y="64">$150K</text>
+            <text x="52" y="134">$130K</text>
+            <text x="52" y="204">$115K</text>
+            <text x="52" y="274">$100K</text>
+          </g>
+
+          <!-- X-axis labels -->
+          <g font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" opacity="0.5" text-anchor="middle">
+            <text x="60" y="295">Y0</text>
+            <text x="262" y="295">Y1</text>
+            <text x="464" y="295">Y2</text>
+            <text x="666" y="295">Y3</text>
+            <text x="868" y="295">Y4</text>
+          </g>
+
+          <!-- Filled area under curve (subtle gold wash) -->
+          <path d="M 60 270 C 140 262, 220 245, 262 228 C 320 206, 380 190, 464 172 C 540 154, 610 128, 666 108 C 730 88, 820 70, 868 58 L 868 270 Z"
+                fill="url(#chartFill)" style="color: var(--accent);"/>
+
+          <!-- The curve itself -->
+          <path d="M 60 270 C 140 262, 220 245, 262 228 C 320 206, 380 190, 464 172 C 540 154, 610 128, 666 108 C 730 88, 820 70, 868 58"
+                fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--accent);"/>
+
+          <!-- Baseline reference -->
+          <line x1="60" y1="270" x2="868" y2="270" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+
+          <!-- End dot -->
+          <circle cx="868" cy="58" r="4" fill="currentColor" style="color: var(--accent);"/>
+          <circle cx="868" cy="58" r="8" fill="none" stroke="currentColor" stroke-width="0.5" style="color: var(--accent);" opacity="0.4"/>
+        </svg>
+
+        <div class="chart-caption">
+          <span>Hypothetical growth of $100,000 at a smooth compound rate. For illustration only.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS -->
+<section id="terms">
+  <div class="container">
+    <div class="section-head scroll-reveal">
+      <div class="section-marker">§ 03 <span>/ Fund Terms</span></div>
+      <div>
+        <h2>The <em>structure</em>, summarized.</h2>
+        <p class="section-lede">Standard terms for an emerging systematic manager. Full terms will be documented in the Private Placement Memorandum and Limited Partnership Agreement, available to prospective limited partners under NDA.</p>
+      </div>
+    </div>
+
+    <div class="terms-grid scroll-reveal">
+      <div class="term-row"><span class="term-label">Structure</span><span class="term-value">Delaware Limited Partnership</span></div>
+      <div class="term-row"><span class="term-label">Exemption</span><span class="term-value highlight">Rule 506(c) · Reg D</span></div>
+      <div class="term-row"><span class="term-label">Minimum Commitment</span><span class="term-value">$100,000</span></div>
+      <div class="term-row"><span class="term-label">Management Fee</span><span class="term-value">2.00% per annum</span></div>
+      <div class="term-row"><span class="term-label">Performance Fee</span><span class="term-value">20% over high-water mark</span></div>
+      <div class="term-row"><span class="term-label">Subscriptions</span><span class="term-value">Quarterly</span></div>
+      <div class="term-row"><span class="term-label">Redemptions</span><span class="term-value">Quarterly · 45-day notice</span></div>
+      <div class="term-row"><span class="term-label">Lock-up</span><span class="term-value">None</span></div>
+      <div class="term-row"><span class="term-label">Investor Eligibility</span><span class="term-value">Accredited Investors Only</span></div>
+      <div class="term-row"><span class="term-label">Governing Law</span><span class="term-value">State of Delaware</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section id="founder">
+  <div class="container">
+    <div class="section-head scroll-reveal">
+      <div class="section-marker">§ 04 <span>/ Founder</span></div>
+      <div>
+        <h2>Who is <em>running</em> this.</h2>
+        <p class="section-lede">Hedge fund investors invest in people before they invest in strategies. Below is a brief introduction; a full founder bio, track record summary, and references are provided under NDA to qualified prospective limited partners.</p>
+      </div>
+    </div>
+
+    <div class="clauses scroll-reveal">
+      <div class="clause">
+        <h3><span class="num">01</span>Background</h3>
+        <p><strong>Jonathan J. Ferrucci</strong>, Founder and Portfolio Manager. [Brief background to be completed — years in markets, prior roles, education, credentials. This section will be populated with verifiable biographical information before the site goes live.]</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">02</span>Track Record</h3>
+        <p>[Track record section to be completed. Live audited track record will be provided to qualified prospective limited partners under NDA, with third-party verification through the fund administrator and auditor once engaged.]</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">03</span>Alignment</h3>
+        <p>The founder is a significant limited partner in the fund. Performance fee only accrues above the high-water mark — we are paid when you are paid. [Additional alignment details — founder capital commitment, fee deferrals, lock-up of founder interests — to be finalized in fund documents.]</p>
+      </div>
+      <div class="clause">
+        <h3><span class="num">04</span>Service Providers</h3>
+        <p>[Fund administrator, auditor, legal counsel, and prime broker relationships to be disclosed to prospective limited partners during diligence once engaged. All service providers will be independent third parties.]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section id="signup">
+  <div class="container">
+    <div class="form-wrap">
+      <div class="section-head scroll-reveal">
+        <div class="section-marker">§ 05 <span>/ Founding Partner Inquiry</span></div>
+        <div>
+          <h2>Open the <em>conversation.</em></h2>
+          <p class="section-lede">Arvendi is accepting inquiries from qualified investors while fund formation is completed. Submit your information below and a representative will reach out to discuss the strategy, provide diligence materials under NDA, and outline the path to subscription once the fund is operational.</p>
+        </div>
+      </div>
+
+      <form id="signupForm" class="form-grid scroll-reveal" novalidate>
+        <div class="form-field">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" name="firstName" required>
+        </div>
+        <div class="form-field">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lastName" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-field">
+          <label for="subscription">Intended Subscription Amount</label>
+          <select id="subscription" name="subscription" required>
+            <option value="">— Select —</option>
+            <option>$100,000 – $249,999</option>
+            <option>$250,000 – $499,999</option>
+            <option>$500,000 – $999,999</option>
+            <option>$1,000,000 – $2,499,999</option>
+            <option>$2,500,000+</option>
+            <option>Exploring · not yet determined</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="state">State of Residence</label>
+          <input type="text" id="state" name="state" required>
+        </div>
+        <div class="form-field full">
+          <label for="accred">Basis of Accreditation</label>
+          <select id="accred" name="accreditation" required>
+            <option value="">— Select —</option>
+            <option>Individual income $200K+ (or $300K joint)</option>
+            <option>Net worth $1M+ excluding primary residence</option>
+            <option>Hold Series 7, 65, or 82 license</option>
+            <option>Qualifying entity ($5M+ assets)</option>
+            <option>Qualified Purchaser ($5M+ in investments)</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label for="timing">Anticipated Funding Timing</label>
+          <select id="timing" name="timing">
+            <option>Within the current quarter</option>
+            <option>Within 2 quarters</option>
+            <option>Within 12 months</option>
+            <option>Still exploring</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label for="notes">Questions or Notes</label>
+          <textarea id="notes" name="notes" placeholder="Anything relevant you'd like us to know before reaching out?"></textarea>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="ackAccred" required>
+          <label for="ackAccred">I certify that I meet the accredited investor standards as defined by SEC Rule 501(a), and I understand that third-party verification of my status will be required prior to any subscription being accepted.</label>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="ackNote" required>
+          <label for="ackNote">I understand this is a non-binding expression of interest, that the fund is currently in formation, and that no securities are being offered or sold at this time. Any subscription would require review of a Private Placement Memorandum and execution of separate subscription documents with my own counsel.</label>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Inquiry &nbsp; →</button>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <h3>Inquiry <em>received.</em></h3>
+        <p>A representative will be in touch to discuss the strategy, walk through the fund structure, and provide additional documentation under NDA. Thank you for your interest in Arvendi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISK DISCLOSURE -->
+<div class="risk-section">
+  <div class="risk-inner">
+    <div class="risk-label">◆ Risk Disclosure · Required Reading</div>
+    <h3>Before you proceed, understand the risks.</h3>
+    <p><strong>Not a Solicitation.</strong> This website describes a private fund that is in formation. It does not constitute an offer to sell or a solicitation of an offer to buy any security. Any offering will be made only to qualified investors pursuant to a Private Placement Memorandum and in compliance with applicable federal and state securities laws.</p>
+    <p><strong>Loss of Principal.</strong> Hedge fund investments carry substantial risk, including the risk of total loss of principal. Systematic strategies are not immune to loss. Past performance of any strategy does not guarantee future results. Subscriptions should represent capital an investor can afford to lose entirely.</p>
+    <p><strong>Illiquidity.</strong> Fund interests are not publicly traded and are subject to the redemption terms set forth in the fund documents. Redemptions are permitted quarterly with 45 days prior notice. In adverse market conditions, the fund may suspend or delay redemptions as permitted under the Limited Partnership Agreement.</p>
+    <p><strong>Fees and Expenses.</strong> The fund will charge a 2% annual management fee and a 20% performance fee over a high-water mark. These fees materially reduce net returns to investors. Additional fund expenses (administrator, audit, legal, trading costs) are borne by the fund.</p>
+    <p><strong>Private Placement.</strong> Interests will be offered under Rule 506(c) of Regulation D and have not been and will not be registered with the SEC or any state securities regulator. The securities are restricted and subject to resale limitations. Accredited investor verification is required prior to subscription.</p>
+    <p><strong>No Guarantee.</strong> Nothing on this website constitutes investment, legal, or tax advice. Prospective investors should consult their own legal, tax, and financial advisors before making any investment decision. Arvendi makes no forward-looking representations regarding performance or returns.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>© MMXXVI · ARVENDI · ALL RIGHTS RESERVED</div>
+    <div style="display: flex; gap: 2rem;">
+      <a href="mailto:inquiries@arvendi.com">inquiries@arvendi.com</a>
+      <a href="#">Privacy</a>
+      <a href="#">Disclosures</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ==================== THEME ====================
+  // Load saved theme or default to light
+  const savedTheme = localStorage.getItem('arvendi_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('arvendi_theme', next);
+  }
+
+  // ==================== GATE ====================
+  function passGate() {
+    document.getElementById('gate').style.transition = 'opacity 0.5s';
+    document.getElementById('gate').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('gate').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      sessionStorage.setItem('arvendi_gate', 'passed');
+    }, 500);
+  }
+  function declineGate() {
+    document.getElementById('gateDeclined').style.display = 'block';
+    document.querySelector('.gate-buttons').style.display = 'none';
+  }
+  document.body.style.overflow = 'hidden';
+  if (sessionStorage.getItem('arvendi_gate') === 'passed') {
+    document.getElementById('gate').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  // ==================== NAV ====================
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
+  // ==================== SCROLL REVEAL ====================
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+  // ==================== FORM ====================
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!this.checkValidity()) { this.reportValidity(); return; }
+    const data = Object.fromEntries(new FormData(this));
+    console.log('Form submission:', data);
+
+    // >>> WIRE UP BACKEND HERE <<<
+    // Formspree:
+    //   fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: new FormData(this), headers: {'Accept': 'application/json'} }).then(() => { /* success */ });
+
+    this.style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+    document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+</body>
+</html>
